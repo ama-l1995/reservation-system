@@ -27,33 +27,42 @@ class AdminDashboard extends Component
         $this->reservationStats = $this->reservationService->getReservationStats();
     }
 
-    public function confirmReservation($id)
+    public function confirmReservation($params)
     {
-        try {
-            app(ReservationService::class)->updateReservation($id, ['status' => 'confirmed']);
-            $this->dispatchBrowserEvent('toastr:success', ['message' => 'Reservation confirmed successfully.']);
-        } catch (\Exception $e) {
-            $this->dispatchBrowserEvent('toastr:error', ['message' => $e->getMessage()]);
-        }
+        $id = $params['id'] ?? null;
+        if (!$id) return;
+
+        app(ReservationService::class)->updateReservation($id, ['status' => 'confirmed']);
+        $this->dispatch('toastr:success', 'Reservation confirmed successfully.');
     }
 
-    public function cancelReservation($id)
+
+    public function cancelReservation($params)
     {
+        $id = $params['id'] ?? null;
+        if (!$id) return;
+
         try {
             app(ReservationService::class)->deleteReservation($id);
-            $this->dispatchBrowserEvent('toastr:success', ['message' => 'Reservation cancelled successfully.']);
+            $this->dispatch('toastr:success', 'Reservation cancelled successfully.');
         } catch (\Exception $e) {
-            $this->dispatchBrowserEvent('toastr:error', ['message' => $e->getMessage()]);
+            $this->dispatch('toastr:error', $e->getMessage());
         }
     }
 
     public function render()
     {
+        $serviceService = app(ServiceService::class);
+        $reservationService = app(ReservationService::class);
+
         return view('livewire.admin-dashboard', [
-            'services' => $this->serviceService->getAllServices(),
-            'allServices' => $this->serviceService->getAllServices(),
-            'reservations' => $this->reservationService->getAllReservations(),
+            'services' => $serviceService->getAllServices(),
+            'allServices' => $serviceService->getAllServices(),
+            'reservations' => $reservationService->getAllReservations(),
+            'livewireId' => $this->getId(),
         ])->layout('layouts.app', ['title' => 'Admin Dashboard']);
     }
+
+
 
 }

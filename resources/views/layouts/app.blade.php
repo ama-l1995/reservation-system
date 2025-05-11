@@ -15,7 +15,6 @@
 
     @livewireStyles
     <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/png">
-
 </head>
 <body>
     <!-- Navbar -->
@@ -33,31 +32,24 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="gap-2 navbar-nav align-items-center">
                     @auth
-                    @if(auth()->user()->is_admin)
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active fw-semibold' : '' }}" href="{{ route('admin.dashboard') }}">
-                                Admin Dashboard
-                            </a>
-                        </li>
-                    @else
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('services.index') ? 'active fw-semibold' : '' }}" href="{{ route('services.index') }}">
-                                Services
-                            </a>
-                        </li>
-                    @endif
-                @endauth
-
-
-                    @auth
+                        @if(auth()->user()->is_admin)
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active fw-semibold' : '' }}" href="{{ route('admin.dashboard') }}">
+                                    Admin Dashboard
+                                </a>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('services.index') ? 'active fw-semibold' : '' }}" href="{{ route('services.index') }}">
+                                    Services
+                                </a>
+                            </li>
+                        @endif
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('reservations.index') ? 'active fw-semibold' : '' }}" href="{{ route('reservations.index') }}">
                                 My Reservations
                             </a>
                         </li>
-
-
-
                         <li class="nav-item">
                             <form action="{{ route('logout') }}" method="POST" class="m-0">
                                 @csrf
@@ -74,8 +66,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('register') ? 'active fw-semibold' : '' }}" href="{{ route('register') }}">
-                                <i class="fas fa-user-plus"></i>
- Register
+                                <i class="fas fa-user-plus"></i> Register
                             </a>
                         </li>
                     @endauth
@@ -103,34 +94,28 @@
     <!-- Toastr Config -->
     <script>
         toastr.options = {
-            "closeButton": true,
-            "progressBar": true,
-            "positionClass": "toast-top-right",
-            "timeOut": "5000"
+            closeButton: true,
+            progressBar: true,
+            positionClass: "toast-top-right",
+            timeOut: "5000"
         };
 
-        @if(session('success'))
-            toastr.success("{{ session('success') }}");
-        @endif
-
-        @if(session('error'))
-            toastr.error("{{ session('error') }}");
-        @endif
-
+        @if(session('success')) toastr.success("{{ session('success') }}"); @endif
+        @if(session('error')) toastr.error("{{ session('error') }}"); @endif
         @if(session('toastr_type') && session('toastr_message'))
             toastr["{{ session('toastr_type') }}"]("{{ session('toastr_message') }}");
         @endif
 
         window.addEventListener('toastr:success', event => {
-            toastr.success(event.detail.message);
+            toastr.success(event.detail);
         });
 
         window.addEventListener('toastr:error', event => {
-            toastr.error(event.detail.message);
+            toastr.error(event.detail);
         });
     </script>
 
-    <!-- SweetAlert Delete Confirmation -->
+    <!-- SweetAlert -->
     <script>
         function confirmDelete(id) {
             Swal.fire({
@@ -145,11 +130,31 @@
                 if (result.isConfirmed) {
                     document.getElementById('delete-form-' + id).submit();
                 }
-            })
+            });
         }
+
+        function confirmPopup(id, type) {
+            const actionText = type === 'confirm' ? 'confirm this reservation' : 'cancel this reservation';
+            const method = type === 'confirm' ? 'confirmReservation' : 'cancelReservation';
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `Do you want to ${actionText}?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: type === 'confirm' ? '#28a745' : '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Yes, proceed!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Livewire.first().call(method, { id });
+                }
+            });
+        }
+
+
     </script>
 
     @livewireScripts
-
 </body>
 </html>

@@ -101,21 +101,31 @@
                             </td>
                             <td>
                                 @if($reservation->status === 'pending')
-                                    <button wire:click="confirmReservation({{ $reservation->id }})" class="btn btn-success btn-sm">Confirm</button>
+                                    <button onclick="confirmPopup({{ $reservation->id }}, 'confirm')" class="btn btn-success btn-sm">
+                                        Confirm
+                                    </button>
                                 @endif
 
                                 @if($reservation->status !== 'cancelled')
-                                    <a href="{{ route('admin.reservations.edit', $reservation->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</a>
-                                    <button wire:click="cancelReservation({{ $reservation->id }})" class="btn btn-danger btn-sm">Cancel</button>
-                                @else
-                                <form action="{{ route('admin.reservations.destroy', $reservation->id) }}" method="POST" id="delete-form-{{ $reservation->id }}" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" onclick="confirmDelete({{ $reservation->id }})" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Delete Permanently</button>
-                                </form>
-
-
+                                    <a href="{{ route('admin.reservations.edit', $reservation->id) }}" class="btn btn-warning btn-sm">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    <button onclick="confirmPopup({{ $reservation->id }}, 'cancel')" class="btn btn-danger btn-sm">
+                                        Cancel
+                                    </button>
                                 @endif
+
+                                @if($reservation->status === 'cancelled')
+                                    <form action="{{ route('admin.reservations.destroy', $reservation->id) }}" method="POST" id="delete-form-{{ $reservation->id }}" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" onclick="confirmDelete({{ $reservation->id }})" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash-alt"></i> Delete Permanently
+                                        </button>
+                                    </form>
+                                @endif
+
+
                             </td>
 
                         </tr>

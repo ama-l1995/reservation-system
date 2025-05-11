@@ -4,7 +4,6 @@ Laravel 11 platform for booking services (consultations, coaching, etc.). Includ
 
 - Admin dashboard with Livewire
 - RESTful API secured by Sanctum
-- Email notifications
 - Bootstrap 5 UI
 
 ---
