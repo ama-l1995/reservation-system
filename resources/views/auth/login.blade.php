@@ -7,7 +7,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h4>Login</h4>
+                    <h4>Login <i class="fas fa-sign-in-alt"></i></h4>
                 </div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
@@ -30,11 +30,12 @@
                             <input type="checkbox" class="form-check-input" id="remember" name="remember">
                             <label class="form-check-label" for="remember">Remember Me</label>
                         </div>
-                        <button type="submit" class="btn btn-primary">Login</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Login</button>
                     </form>
                 </div>
                 <div class="text-center card-footer">
-                    <p>Don't have an account? <a href="{{ route('register') }}">Register</a></p>
+                    <p>Don't have an account? <a href="{{ route('register') }}"><i class="fas fa-user-plus"></i>
+                         Register</a></p>
                 </div>
             </div>
         </div>

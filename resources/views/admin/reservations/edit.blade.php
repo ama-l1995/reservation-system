@@ -13,7 +13,7 @@
                     <input type="datetime-local" class="form-control" name="reservation_date" value="{{ $reservation->reservation_date->format('Y-m-d\TH:i') }}" required>
                 </div>
 
-                <button type="submit" class="mt-2 btn btn-primary">Update</button>
+                <button type="submit" class="mt-2 btn btn-primary"><i class="fas fa-edit"></i> Update</button>
             </form>
         </div>
     </div>

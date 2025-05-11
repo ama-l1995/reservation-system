@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Reservation;
 use App\Repositories\ServiceRepository;
 use Illuminate\Support\Facades\Log;
 

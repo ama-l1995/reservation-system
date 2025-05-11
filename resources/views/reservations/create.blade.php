@@ -16,7 +16,7 @@
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
-                <button type="submit" class="btn btn-primary">Confirm Reservation</button>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-circle-check"></i> Confirm Reservation</button>
             </form>
         </div>
     </div>

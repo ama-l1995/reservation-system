@@ -17,25 +17,33 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
-    Route::get('/reservations/create/{serviceId}', [ReservationController::class, 'create'])->name('reservations.create');
-    Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
-    Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+
+    Route::prefix('reservations')->group(function () {
+        Route::get('/', [ReservationController::class, 'index'])->name('reservations.index');
+        Route::get('/create/{serviceId}', [ReservationController::class, 'create'])->name('reservations.create');
+        Route::post('/', [ReservationController::class, 'store'])->name('reservations.store');
+        Route::delete('/{id}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+    });
+
+
 });
 
 Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/services/create', [ServiceController::class, 'create'])->name('services.create');
-    Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
-    Route::get('/services/{id}/edit', [ServiceController::class, 'edit'])->name('services.edit');
-    Route::put('/services/{id}', [ServiceController::class, 'update'])->name('services.update');
-    Route::delete('/services/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
+    Route::prefix('services')->group(function () {
+        Route::get('/create', [ServiceController::class, 'create'])->name('services.create');
+        Route::post('/', [ServiceController::class, 'store'])->name('services.store');
+        Route::get('/{id}/edit', [ServiceController::class, 'edit'])->name('services.edit');
+        Route::put('/{id}', [ServiceController::class, 'update'])->name('services.update');
+        Route::delete('/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
+    });
 
-
-    Route::get('/admin/dashboard', \App\Livewire\AdminDashboard::class)->name('admin.dashboard');
-
-    Route::get('admin/reservations/{id}/edit', [AdminReservationController::class, 'edit'])->name('admin.reservations.edit');
-    Route::put('admin/reservations/{id}', [AdminReservationController::class, 'update'])->name('admin.reservations.update');
-    Route::delete('/admin/reservations/{id}', [AdminReservationController::class, 'destroy'])->name('admin.reservations.destroy');
+    Route::prefix('admin')->group(function () {
+        Route::get('/dashboard', \App\Livewire\AdminDashboard::class)->name('admin.dashboard');
+        Route::get('/reservations/{id}/edit', [AdminReservationController::class, 'edit'])->name('admin.reservations.edit');
+        Route::put('/reservations/{id}', [AdminReservationController::class, 'update'])->name('admin.reservations.update');
+        Route::delete('/reservations/{id}', [AdminReservationController::class, 'destroy'])->name('admin.reservations.destroy');
+    });
 
 });

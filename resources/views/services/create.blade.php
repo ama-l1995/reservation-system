@@ -39,7 +39,7 @@
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
-                <button type="submit" class="btn btn-primary">Add Service</button>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Add Service</button>
             </form>
         </div>
     </div>

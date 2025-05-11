@@ -3,22 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ config('app.name', 'Service Reservation System') }} {{ $title ?? '' }}</title>
+    <title>Service Reservation | {{ $title ?? '' }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     @livewireStyles
+    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/png">
+
 </head>
 <body>
-
     <!-- Navbar -->
     <nav class="shadow-sm navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="{{ route('home') }}">
-                <i class="fas fa-concierge-bell me-1"></i> Service Reservation
+            <a class="gap-2 navbar-brand fw-bold d-flex align-items-center" href="{{ route('home') }}">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo" style="height: 40px;">
+                <span>Service Reservation</span>
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -27,23 +32,22 @@
 
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="gap-2 navbar-nav align-items-center">
+                    @auth
                     @if(auth()->user()->is_admin)
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active fw-semibold' : '' }}" href="{{ route('admin.dashboard') }}">
                                 Admin Dashboard
                             </a>
                         </li>
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('services.index') ? 'active fw-semibold' : '' }}" href="{{ route('services.index') }}">
+                                Services
+                            </a>
+                        </li>
                     @endif
+                @endauth
 
-                    @auth
-                        @if(!auth()->user()->is_admin)
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('services.index') ? 'active fw-semibold' : '' }}" href="{{ route('services.index') }}">
-                                    Services
-                                </a>
-                            </li>
-                        @endif
-                    @endauth
 
                     @auth
                         <li class="nav-item">
@@ -58,19 +62,20 @@
                             <form action="{{ route('logout') }}" method="POST" class="m-0">
                                 @csrf
                                 <button type="submit" class="px-2 text-white nav-link btn btn-link fw-semibold">
-                                    Logout
+                                    <i class="fas fa-sign-out-alt"></i> Logout
                                 </button>
                             </form>
                         </li>
                     @else
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('login') ? 'active fw-semibold' : '' }}" href="{{ route('login') }}">
-                                Login
+                                <i class="fas fa-sign-in-alt"></i> Login
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('register') ? 'active fw-semibold' : '' }}" href="{{ route('register') }}">
-                                Register
+                                <i class="fas fa-user-plus"></i>
+ Register
                             </a>
                         </li>
                     @endauth

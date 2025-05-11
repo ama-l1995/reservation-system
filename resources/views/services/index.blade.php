@@ -18,7 +18,7 @@
                                 <a href="{{ route('reservations.create', $service->id) }}" class="btn btn-primary">Reserve Now</a>
                             @endif
                         @else
-                            <a href="{{ route('login') }}" class="btn btn-primary">Login to Reserve</a>
+                            <a href="{{ route('login') }}" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Login to Reserve</a>
                         @endauth
                     </div>
                 </div>

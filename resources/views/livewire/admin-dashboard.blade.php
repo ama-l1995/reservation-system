@@ -37,7 +37,7 @@
             <h5>Manage Services</h5>
         </div>
         <div class="card-body">
-            <a href="{{ route('services.create') }}" class="mb-3 btn btn-primary">Add Service</a>
+            <a href="{{ route('services.create') }}" class="mb-3 btn btn-primary"><i class="fas fa-plus"></i> Add Service</a>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -54,11 +54,11 @@
                             <td>EGP {{ number_format($service->price, 2) }}</td>
                             <td>{{ $service->is_available ? 'Available' : 'Unavailable' }}</td>
                             <td>
-                                <a href="{{ route('services.edit', $service->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{{ route('services.edit', $service->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</a>
                                 <form action="{{ route('services.destroy', $service->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')"><i class="fas fa-trash-alt"></i> Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -105,13 +105,13 @@
                                 @endif
 
                                 @if($reservation->status !== 'cancelled')
-                                    <a href="{{ route('admin.reservations.edit', $reservation->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="{{ route('admin.reservations.edit', $reservation->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</a>
                                     <button wire:click="cancelReservation({{ $reservation->id }})" class="btn btn-danger btn-sm">Cancel</button>
                                 @else
                                 <form action="{{ route('admin.reservations.destroy', $reservation->id) }}" method="POST" id="delete-form-{{ $reservation->id }}" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="button" onclick="confirmDelete({{ $reservation->id }})" class="btn btn-danger btn-sm">Delete Permanently</button>
+                                    <button type="button" onclick="confirmDelete({{ $reservation->id }})" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Delete Permanently</button>
                                 </form>
 
 

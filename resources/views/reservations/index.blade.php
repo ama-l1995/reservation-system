@@ -44,7 +44,7 @@
                                             <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to cancel this reservation?')">Cancel</button>
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to cancel this reservation?')"><i class="fas fa-circle-xmark text-danger"></i> Cancel</button>
                                             </form>
                                         @endif
                                     </td>
